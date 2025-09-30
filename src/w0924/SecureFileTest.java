@@ -22,6 +22,7 @@ public class SecureFileTest {
                  for (int i = 0; i < line.length(); i++){
                      int code = (int)line.charAt(i);
                      code += 100;
+
                      secureOutStr += (char)code;
                  }
                  fw.write(secureOutStr + "\n");

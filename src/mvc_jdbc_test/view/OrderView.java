@@ -2,6 +2,7 @@ package mvc_jdbc_test.view;
 
 import mvc_jdbc_test.entity.Order;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class OrderView {
@@ -30,7 +31,8 @@ public class OrderView {
     }
     public static void printOrders(Order order) {
         Date orderDate = order.getOrderDate();
-        String ordersDate = (orderDate.getYear())+"-"+(orderDate.getMonth())+"-"+(orderDate.getDay());
+        //String ordersDate = (orderDate.getYear())+"-"+(orderDate.getMonth())+"-"+(orderDate.getDay());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         System.out.printf("%s\t\t%s\t\t%s\t\t%s\t\t\t%s\t\t\t%s\t\t%s\n",order.getOrderNumber(),order.getCustomerName(),order.getCustomerId(), order.getShippingAddress(),order.getQuantity(),order.getOrderDate().toString(),order.getProductName());
 
     }

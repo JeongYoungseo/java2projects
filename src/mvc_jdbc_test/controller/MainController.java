@@ -4,6 +4,7 @@ import jdbcTest.JDBCConnector;
 import mvc_jdbc_test.entity.Customer;
 import mvc_jdbc_test.entity.Order;
 import mvc_jdbc_test.view.CustomerView;
+import mvc_jdbc_test.view.InputCustomerInfoView;
 import mvc_jdbc_test.view.OrderView;
 
 import java.sql.Connection;
@@ -11,12 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class MainController {
     public static void main(String[] args) {
         Connection con = JDBCConnector.getConnection();
         //customerListAndView(con);
-        orderListAndView(con);
+        //orderListAndView(con);
+        InputAndView(con);
     }
     public static void orderListAndView(Connection con) {
        ArrayList<Order> orderList = new ArrayList<Order>();
@@ -73,7 +76,6 @@ public class MainController {
             }
             rs.close();
             ps.close();
-            con.close();
         } catch (SQLException e) {
             System.out.println("Statement Error");
         }
@@ -88,6 +90,48 @@ public class MainController {
         customerView.printFooter();
 
     }
+
+// 고객정보 입력 및 입력 내용 출력
+// 고객정보 db의 고객테이블에 고객 Entity 추가
+
+    public static void InputAndView(Connection con){
+        Scanner s2 = new Scanner(System.in);
+        InputCustomerInfoView inputCustomerInfoView = new InputCustomerInfoView();
+        while (true){
+            Customer customer = inputCustomerInfoView .inputCustomerInfo();
+            CustomerView customerView = new CustomerView();
+            customerView.printHead();
+            customerView.printCustomer(customer);
+            customerView.printFooter();
+
+            String sql = "insert into 고객 values(?,?,?,?,?,?)";
+            try {
+                PreparedStatement ps = con.prepareStatement(sql);
+                ps.setString(1, customer.getCustomerid());
+                ps.setString(2, customer.getCustomername());
+                ps.setInt(3, customer.getAge());
+                ps.setString(4, customer.getLevel());
+                ps.setString(5, customer.getJob());
+                ps.setInt(6, customer.getReward());
+                ps.executeUpdate();
+                ps.close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            System.out.println("고객정보를 추가하기겠습까?(N입력시 종료): ");
+
+            String input = s2.nextLine();
+
+            if(input.equals("N")){
+               break;
+           }
+            System.out.println("프로그램 종료");
+        }
+
+
+    }
+
+
 }
 
 

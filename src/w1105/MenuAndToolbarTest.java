@@ -9,9 +9,9 @@ import java.awt.event.ActionListener;
 
 public class MenuAndToolbarTest extends JFrame {
     JLabel label = new JLabel("툴바의 항목을 선택하세요.", JLabel.CENTER);
-    JButton btnNew = new JButton(new ImageIcon("./toolbar_icons/new.png"));
-    JButton btnOpen = new JButton(new ImageIcon("./toolbar_icons/open.png"));
-    JButton btnClose = new JButton(new ImageIcon("./toolbar_icons/close.jpg"));
+    JButton btnNew = new JButton(new ImageIcon("D:/java2projects/javaproject2/src/toolbaricon/new.png"));
+    JButton btnOpen = new JButton(new ImageIcon("D:/java2projects/javaproject2/src/toolbaricon/open.png"));
+    JButton btnClose = new JButton(new ImageIcon("D:/java2projects/javaproject2/src/toolbaricon/close.jpg"));
     JMenuItem miNew = new JMenuItem("새문서");
     JMenuItem miOpen = new JMenuItem("열기");
     JMenuItem miClose = new JMenuItem("닫기");

@@ -126,12 +126,30 @@ public class MainController {
                break;
            }
             System.out.println("프로그램 종료");
+            s2.close();
         }
+    }
+// ** CustomerDao 클래스를 이용해 수정 및 삭제 **
+// Customer table Update(수정)
+    public static void updateCustomer(Connection con){
+        Scanner s3 = new Scanner(System.in);
+        CustomerView customerView = new CustomerView();
 
+        System.out.println("수정할 고객 ID 입력: ");
+        String id = s3.nextLine();
+
+       // CustomerDao dao = newCustomerDao();
 
     }
 
 
+
+
+
+// Customer table Delete(삭제)
+    public static void deleteCustomer(Connection con){
+
+    }
 }
 
 

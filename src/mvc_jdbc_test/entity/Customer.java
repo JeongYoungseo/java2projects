@@ -8,6 +8,16 @@ public class Customer {
     private String job;
     private int reward; //적립금
 
+    public Customer(String customerid, String customername, int age, String level, String job, int reward) {
+        this.customerid = customerid;
+        this.customername = customername;
+        this.age = age;
+        this.level = level;
+        this.job = job;
+        this.reward = reward;
+    }
+    public Customer() {}
+
     public String getCustomerid() {
         return customerid;
     }

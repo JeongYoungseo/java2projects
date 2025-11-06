@@ -1,7 +1,7 @@
-package mvc_jdbc_test.DataAccessObject;
+package mvc_jdbc_test.dataAccessObject;
 
 import java.sql.*;
-import java.util.*;
+
 import mvc_jdbc_test.entity.Customer;
 
 //Data Access Object ==> DB 접근 전용 클래스(데이터베이스와 직접 통신하는 역할)

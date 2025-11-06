@@ -1,7 +1,7 @@
 package mvc_jdbc_test.controller;
 
 import jdbcTest.JDBCConnector;
-import mvc_jdbc_test.DataAccessObject.CustomerDao;
+import mvc_jdbc_test.dataAccessObject.CustomerDao;
 import mvc_jdbc_test.entity.Customer;
 import mvc_jdbc_test.entity.Order;
 import mvc_jdbc_test.view.CustomerView;

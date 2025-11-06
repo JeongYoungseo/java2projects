@@ -1,6 +1,7 @@
 package mvc_jdbc_test.controller;
 
 import jdbcTest.JDBCConnector;
+import mvc_jdbc_test.DataAccessObject.CustomerDao;
 import mvc_jdbc_test.entity.Customer;
 import mvc_jdbc_test.entity.Order;
 import mvc_jdbc_test.view.CustomerView;
@@ -17,9 +18,54 @@ import java.util.Scanner;
 public class MainController {
     public static void main(String[] args) {
         Connection con = JDBCConnector.getConnection();
+        Scanner sc = new Scanner(System.in);
+
+        while (true) {
+            System.out.println("\n=======고객 정보 프로그램 ========\n");
+            System.out.println("1. 고객정보조회");
+            System.out.println("2. 고객정보입력");
+            System.out.println("3. 고객정보수정");
+            System.out.println("4. 고객정보삭제");
+            System.out.println("0. 프로그램 종료");
+            System.out.println("선택: ");
+
+            int select = sc.nextInt();
+            sc.nextLine();
+
+            switch (select) {
+                case 1:
+                    customerListAndView(con);
+                    break;
+                case 2:
+                    InputAndView(con);
+                    break;
+                case 3:
+                    UpdateCustomer(con);
+                    break;
+                case 4:
+                    DeleteCustomer(con);
+                    break;
+                case 0:
+                    System.out.println("프로그램이 종료됩니다.");
+                    sc.close();
+                {
+                    try {
+                        con.close();
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                    return;
+                }
+                default:
+                    System.out.println("잘못된 입력입니다. 다시 선택하세요");
+
+            }
+        }
         //customerListAndView(con);
         //orderListAndView(con);
-        InputAndView(con);
+        //InputAndView(con);
+       // UpdateCustomer(con);
+       // DeleteCustomer(con);
     }
     public static void orderListAndView(Connection con) {
        ArrayList<Order> orderList = new ArrayList<Order>();
@@ -131,24 +177,64 @@ public class MainController {
     }
 // ** CustomerDao 클래스를 이용해 수정 및 삭제 **
 // Customer table Update(수정)
-    public static void updateCustomer(Connection con){
+    public static void UpdateCustomer(Connection con){
         Scanner s3 = new Scanner(System.in);
-        CustomerView customerView = new CustomerView();
+        CustomerDao customerDao = new CustomerDao();
+        System.out.print("수정할 고객 아이디: ");
+        String customerid = s3.nextLine();
 
-        System.out.println("수정할 고객 ID 입력: ");
-        String id = s3.nextLine();
+        Customer existing = customerDao.getCustomerId(con, customerid);
+        if(existing == null){
+            System.out.println("해당 고객이 존재하지 않습니다.");
+            return;
+        }
+        System.out.println("현재 이름: " + existing.getCustomername());
+        System.out.println("현재 나이: " + existing.getAge());
+        System.out.println("현재 등급: " + existing.getLevel());
+        System.out.println("현재 직업: " + existing.getJob());
+        System.out.println("현재 적립금: " + existing.getReward());
 
-       // CustomerDao dao = newCustomerDao();
 
+        System.out.println("새 이름: ");
+        String newName = s3.nextLine();
+        System.out.println("새 나이: ");
+        int newAge = Integer.parseInt(s3.nextLine());
+        System.out.println("새 등급: ");
+        String newLevel = s3.nextLine();
+        System.out.println("새 직업: ");
+        String newJob = s3.nextLine();
+        System.out.println("새 적립금: ");
+        int newReward = Integer.parseInt(s3.nextLine());
+
+        Customer update = new Customer(customerid, newName,newAge,newLevel,newJob,newReward);
+        customerDao.updateCustomer(con, update);
+
+        System.out.println("수정완료");
     }
 
-
-
-
-
 // Customer table Delete(삭제)
-    public static void deleteCustomer(Connection con){
+    public static void DeleteCustomer(Connection con){
+        Scanner s4 = new Scanner(System.in);
+        CustomerDao customerDao = new CustomerDao();
+        System.out.println("삭제할 고객 아이디: ");
+        String id  = s4.nextLine();
 
+        Customer target = customerDao.getCustomerId(con, id);
+        if(target == null){
+            System.out.println("해당 고객이 존재하지 않습니다.");
+            return;
+        }
+
+        System.out.println("삭제할 고객 이름: " + target.getCustomerid());
+        System.out.println("정말 삭제하시겠습니까? [Y/N]");
+        String answer = s4.nextLine();
+
+        if(answer.equalsIgnoreCase("Y")) {
+            customerDao.deleteCustomer(con, id);
+            System.out.println("삭제완료");
+        }else {
+            System.out.println("삭제취소");
+        }
     }
 }
 

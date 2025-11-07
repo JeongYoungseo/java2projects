@@ -175,6 +175,8 @@ public class MainController {
             s2.close();
         }
     }
+
+//  ============================== 중간고사 과제 부분 =================================
 // ** CustomerDao 클래스를 이용해 수정 및 삭제 **
 // Customer table Update(수정)
     public static void UpdateCustomer(Connection con){

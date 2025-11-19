@@ -197,7 +197,7 @@ public class MainController {
         System.out.println("현재 적립금: " + existing.getReward());
 
 
-        System.out.println("새 이름: ");
+        System.out.println("새 이름: ");  
         String newName = s3.nextLine();
         System.out.println("새 나이: ");
         int newAge = Integer.parseInt(s3.nextLine());

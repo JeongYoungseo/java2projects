@@ -1,4 +1,4 @@
-package bookmanagement.test;
+package bookmanagement._test;
 
 import bookmanagement.domain.BookVO;
 import bookmanagement.reporsitory.BookRepository;

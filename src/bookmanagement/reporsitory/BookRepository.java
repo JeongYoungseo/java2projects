@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class BookRepository {
     ArrayList<BookVO> bookVOList;
 
-    public ArrayList<BookVO> select(String searchWord, int selectedIndex ) {
+    public ArrayList<BookVO> select(String searchWord, int selectedIndex) {
         Connection con = JDBCConnector.getConnection();
         bookVOList = new ArrayList<BookVO>();
         ResultSet rs = null;
@@ -21,7 +21,7 @@ public class BookRepository {
         String sql = "select isbn, name, publish, author, price, category_name from book, category where book.category = category.category_id and " + columnName[selectedIndex] + " like ?";
         try {
             psmt = con.prepareStatement(sql);
-            psmt.setString(1, "%"+searchWord+"%");
+            psmt.setString(1, "%" + searchWord + "%");
             rs = psmt.executeQuery();
             while (rs.next()) {
                 BookVO bookVO = new BookVO();
@@ -35,15 +35,15 @@ public class BookRepository {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
-                if(rs!=null)
+                if (rs != null)
                     rs.close();
 
-                if(psmt!=null)
+                if (psmt != null)
                     psmt.close();
 
-                if(con!=null)
+                if (con != null)
                     con.close();
 
             } catch (SQLException e) {
@@ -61,14 +61,14 @@ public class BookRepository {
 
         try {
             psmt = con.prepareStatement(sql);
-            psmt.setString(1, bookVO.getIsbn());
+            psmt.setInt(1, bookVO.getIsbn());
             psmt.setString(2, bookVO.getName());
             psmt.setString(3, bookVO.getPublish());
             psmt.setString(4, bookVO.getAuthor());
             psmt.setInt(5, bookVO.getPrice());
 
             int categoryID = 0;
-            switch(bookVO.getCategoryName()){
+            switch (bookVO.getCategoryName()) {
                 case "IT도서":
                     categoryID = 10;
                     break;
@@ -92,14 +92,89 @@ public class BookRepository {
         } finally {
             try {
 
-                if(psmt!=null)
+                if (psmt != null)
                     psmt.close();
 
-                if(con!=null)
+                if (con != null)
                     con.close();
 
             } catch (SQLException e) {
                 System.out.println("insert close failed");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void update(BookVO bookVO) {
+        Connection con = JDBCConnector.getConnection();
+        String sql = "update book set name=?, publish=?, author=?, price=?, category=? where isbn=?";
+        PreparedStatement psmt = null;
+        try {
+            psmt = con.prepareStatement(sql);
+            psmt.setString(1, bookVO.getName());
+            psmt.setString(2, bookVO.getPublish());
+            psmt.setString(3, bookVO.getAuthor());
+            psmt.setInt(4, bookVO.getPrice());
+            int categoryID = 0;
+            switch (bookVO.getCategoryName()) {
+                case "IT도서":
+                    categoryID = 10;
+                    break;
+                case "소설":
+                    categoryID = 20;
+                    break;
+                case "비소설":
+                    categoryID = 30;
+                    break;
+                case "경제":
+                    categoryID = 40;
+                    break;
+                case "사회":
+                    categoryID = 50;
+                    break;
+            }
+            psmt.setInt(5, categoryID);
+            psmt.setInt(6, bookVO.getIsbn());
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (psmt != null)
+                    psmt.close();
+
+                if (con != null)
+                    con.close();
+
+            } catch (SQLException e) {
+                System.out.println("update close failed");
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void delete(BookVO bookVO) {
+        Connection con = JDBCConnector.getConnection();
+        String sql = "delete from book where isbn=?";
+        PreparedStatement psmt = null;
+        try {
+            psmt = con.prepareStatement(sql);
+            psmt.setInt(1, bookVO.getIsbn());
+            psmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+
+                if (psmt != null)
+                    psmt.close();
+
+                if (con != null)
+                    con.close();
+
+            } catch (SQLException e) {
+                System.out.println("delete close failed");
                 e.printStackTrace();
             }
         }

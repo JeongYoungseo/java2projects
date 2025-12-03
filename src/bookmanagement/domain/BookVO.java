@@ -8,9 +8,7 @@ public class BookVO {
     private int price;
     private String categoryName;
 
-    public String getIsbn() {
-        return isbn;
-    }
+    public int getIsbn() { return isbn; }
 
     public void setIsbn(int isbn) {
         this.isbn = isbn;
